@@ -46,6 +46,8 @@ public struct DLXColumns {
         }
     }
     
+    
+    //MARK: - Mutators
     mutating func insert(_ row: Int, at index: Int) {
         indices.insert(index)
         sets[index].insert(row)
