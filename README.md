@@ -20,6 +20,9 @@ var grid = XGrid(729, 324){ index in
 }
 
 ```
+
+There is a second initializer in which you provide the number of columns and a [Set<Int>] which each set represents a row and each number in the set represents an intersecting column, while it constructs faster it requires either manual construction or a static value. in the case of sudoku that is a very large array.
+
 ## XGrid.fill(count:Int) -> Set<Int>?
 attempt to solve the grid the first n values will be picked at random
 
