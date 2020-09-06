@@ -20,6 +20,11 @@ public struct DLXColumns {
         guard let i = indices.min(by:{counts[$0] < counts[$1]}) else {return nil}
         return sets[i]
     }
+    
+    public var random: Set<Int>? {
+        guard let i = indices.randomElement() else { return nil }
+        return sets[i]
+    }
     //MARK: - Initializer
     
     init(_ count: Int) {
