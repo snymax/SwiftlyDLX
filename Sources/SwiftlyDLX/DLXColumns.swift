@@ -18,12 +18,12 @@ public struct DLXColumns {
     //MARK: - Computed Properties
     public var best: Set<Int>? {
         guard let i = indices.min(by:{counts[$0] < counts[$1]}) else {return nil}
-        return sets[i]
+        return columns[i]
     }
     
     public var random: Set<Int>? {
         guard let i = indices.randomElement() else { return nil }
-        return sets[i]
+        return columns[i]
     }
     //MARK: - Initializer
     
@@ -47,7 +47,7 @@ public struct DLXColumns {
                 return
             }
             indices.insert(index)
-            sets[index] = nv
+            columns[index] = nv
         }
     }
     
@@ -55,12 +55,12 @@ public struct DLXColumns {
     //MARK: - Mutators
     mutating func insert(_ row: Int, at index: Int) {
         indices.insert(index)
-        sets[index].insert(row)
+        columns[index].insert(row)
         counts[index] += 1
     }
     
     mutating func remove(_ row: Int, at index: Int) {
-        sets[index].remove(row)
+        columns[index].remove(row)
         counts[index] -= 1
     }
 }
