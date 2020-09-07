@@ -61,11 +61,11 @@ public struct XGrid {
                 activeRows.remove(r)
                 intersectingRows.insert(r)
                 for k in rows[r] {
-                    columns.remove(r at: k)
+                    columns.remove(r, at: k)
                 }
             }
         }
-        return associatedRows
+        return intersectingRows
     }
     
     ///Uncover method
@@ -129,7 +129,7 @@ public struct XGrid {
     ///Check if grid is solvable without a specific row
     public mutating func isSolvable(without row: Int) -> Bool {
         guard let column = columns.best else { return true }
-        for r in column where roww != r {
+        for r in column where row != r {
             let cx = cover(r)
             let s = isSolvable(without: row)
             uncover(r, cx)
