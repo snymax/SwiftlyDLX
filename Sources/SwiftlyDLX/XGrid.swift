@@ -124,6 +124,29 @@ public struct XGrid {
         return nil
     }
     
+    //MARK: - Partial
+    ///Attempts to find valid partials without a master
+    public mutating func partial(_ count: Int) -> Set<Int>? {
+        var p = 0
+        return partial(count, attemptedPartials: &p)
+    }
+    public mutating func partial(_ count: Int, attemptedPartials: inout Int) -> Set<Int>? {
+        if count > 0 {
+            attemptedPartials += 1
+            print("Checking partial \(attemptedPartials)")
+            if isValid() {
+                return solution
+            }
+        }
+        guard let column = columns.best else { return nil }
+        for r in column {
+            let cx = cover(r)
+            let s = partial(count - 1)
+            uncover(r, cx)
+            guard s == nil else { return s }
+        }
+        return nil
+    }
     //MARK: - Validators
     
     ///Check if grid is solvable without a specific row
@@ -150,6 +173,32 @@ public struct XGrid {
         return false
     }
     
+    ///check if the puzzle is unique
+    public mutating func isValid() -> Bool {
+        return checkValid() ?? false
+    }
+    
+    public mutating func checkValid() -> Bool? {
+        guard let column = columns.best else { return true }
+        var beenSolved: Bool? = nil
+        for row in column {
+            let cx = cover(row)
+            let s = checkValid()
+            uncover(row, cx)
+            if let ss = s {
+                if !ss { //not valid end now
+                    return false
+                }
+                if beenSolved && ss { //two solutions not valid
+                    return false
+                }
+                if ss {
+                    beenSolved = true
+                }
+            }
+        }
+        return beenSolved
+    }
     //MARK: - Convenience Methods
     
     ///Copy the struct and cover rows useful when reusing the Grid instead of constructing a new one
